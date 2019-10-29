@@ -7,4 +7,13 @@ class postsModel(models.Model):
     log = models.CharField(max_length=1000,null=False)
 
     def __str__(self):
-        return self.name
+        return str(self.id)
+
+class replyModel(models.Model):
+    replyTo = models.ForeignKey(postsModel, to_field='id', on_delete=models.CASCADE)
+    datetime = models.DateTimeField(default=timezone.now)
+    name = models.CharField(max_length=30,null=False)
+    reply = models.CharField(max_length=1000, null=False)
+
+    def __str__(self):
+        return str(self.replyTo)
