@@ -16,4 +16,4 @@ class replyModel(models.Model):
     reply = models.CharField(max_length=1000, null=False)
 
     def __str__(self):
-        return str(self.replyTo)
+        return int(self.replyTo)

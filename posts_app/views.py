@@ -7,8 +7,14 @@ from posts_app.models import postsModel, replyModel
 def index(request):
     form = PostsForm()
     data = postsModel.objects.all().order_by('-datetime')
+
     replyData = replyModel.objects.all()
-    print(replyData.values('replyTo'))
+
+    dataList = postsModel.objects.values_list('id',flat=True).order_by('id')
+
+    replyDataList = replyModel.objects.values_list('replyTo',flat=True).order_by('replyTo')
+
+
     if request.method =="POST":
         form = PostsForm(request.POST)
         if form.is_valid():
@@ -18,7 +24,7 @@ def index(request):
         else:
             print("validation unsuccesssful")
     
-    return render(request, 'posts_app/index.html',{'form':form,'data':data,'replyData':replyData})
+    return render(request, 'posts_app/index.html',{'form':form,'data':data,'replyData':replyData,'dataList':dataList,'replyDataList':replyDataList})
 
 def replyView(request):
     form = ReplyForm()
