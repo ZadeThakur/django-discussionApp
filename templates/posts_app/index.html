@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="container">
-
         <h3 style="text-align: center;">Discussion WebApp</h3>
         <form method="POST">
             {% csrf_token %}
@@ -24,11 +23,8 @@
             <br>
             <br>
         </form>
+
         {% for post in data %}
-
-        
-        
-
         <div class="jumbotron">
             <h4>Author: {{post.name}}</h5>
             <br>
@@ -38,9 +34,11 @@
             <br>
             <h5>Post: {{post.log}}</h6>
             <br>
-            {% for reply in replyDataList %}
-            {% if post.id == reply %}
-                <h5>Their is a reply to this Post</h5>
+            {% for reply in replyData %}
+            {% if post.id == reply.replyToInt %}
+                <h4>Reply</h4>
+                {{reply.name}}
+                {{reply.reply}}
             {% endif %}
             {% endfor %}
         </div>
