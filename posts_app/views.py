@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.urls import reverse
 from posts_app.forms import PostsForm, ReplyForm
 from posts_app.models import postsModel, replyModel
 
@@ -7,13 +8,7 @@ from posts_app.models import postsModel, replyModel
 def index(request):
     form = PostsForm()
     data = postsModel.objects.all().order_by('-datetime')
-    replyData = replyModel.objects.all()
-
-    # dataList = postsModel.objects.values_list('id',flat=True).order_by('id')
-
-    # replyDataList = replyModel.objects.values_list('replyTo',flat=True).order_by('replyTo')
-
-
+    replyData = replyModel.objects.all().order_by('-datetime')
     if request.method =="POST":
         form = PostsForm(request.POST)
         if form.is_valid():
@@ -38,6 +33,7 @@ def replyView(request):
                 rep.replyToInt = y
                 rep.save()
             form = ReplyForm()
+            return redirect(reverse('index'))
             print("reply form validation success")
         else:
             print("reply form validatuon unsucessful")

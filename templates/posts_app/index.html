@@ -14,31 +14,37 @@
             {% csrf_token %}
             {% for entry in form%}
                 <br>
-                {{entry.name}}:
+                {%if entry.name == "log"%}
+                    question:
+                {% else %}
+                    {{entry.name}}:
+                {% endif %}
                 <br>
                 {{entry}}
             {% endfor%}
-            <br>
-            <input type="submit" value="Post" class="btn btn-primary">
+            <br><br>
+            <input type="submit" value="Post" class="btn btn-success">
             <br>
             <br>
         </form>
 
         {% for post in data %}
         <div class="jumbotron">
-            <h4>Author: {{post.name}}</h5>
+            <h4>Original Post:</h4>
+            <h5>Author: {{post.name}}</h5>
+            <h5>Post ID: {{post.id}}</h5>
+            <h5>Date-time: {{post.datetime}}</h5>
+            <h5>Post: {{post.log}}</h5>
             <br>
-            <h4>{{post.id}}</h4>
+            <a href="{% url 'reply' %}"><button type="button" class="btn btn-success">Reply</button></a>
             <br>
-            Date-time: {{post.datetime}}
-            <br>
-            <h5>Post: {{post.log}}</h6>
             <br>
             {% for reply in replyData %}
             {% if post.id == reply.replyToInt %}
-                <h4>Reply</h4>
-                {{reply.name}}
-                {{reply.reply}}
+                <h4>Reply Post:</h4>
+                <h5>Author: {{reply.name}}</h5>
+                <h5>Reply: {{reply.reply}}</h5>
+                <br>
             {% endif %}
             {% endfor %}
         </div>
